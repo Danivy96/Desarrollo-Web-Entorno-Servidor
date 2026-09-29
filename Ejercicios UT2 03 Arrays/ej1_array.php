@@ -10,15 +10,15 @@
 <body>
 
     <?php
-   
+
     $impar = array();
-    $sumaImp = 0;
+    $sumaImp = array();
 
-    for($cont = 0; $cont < 20; $cont++){
-        $impar[] = 2 * $cont +1;
-        $sumaImp += $impar;
-        var_dump($impar);
+    for ($cont = 0; $cont < 20; $cont++) {
+        $impar[] = 2 * $cont + 1;
+        $sumaImp[] = $sumaImp[$cont-1] + $impar[$cont];
     }
-
+    var_dump($impar);
+    var_dump($sumaImp);
     ?>
 </body>
