@@ -36,9 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "El method que ha usado es: ", $_SERVER['REQUEST_METHOD'], "<br>";
     echo "Nombre programa:", $_SERVER["PHP_SELF"], "<br>";
 
-    $operando1 = $_POST['operando1'];
-    $operando2 = $_POST['operando2'];
-    $operacion = $_POST['operacion'];
+    $operando1 = validacion($_POST['operando1']);
+    $operando2 = validacion($_POST['operando2']);
+    $operacion = validacion($_POST['operacion']);
 
     switch ($operacion) {
         case "suma":
