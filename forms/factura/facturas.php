@@ -1,5 +1,4 @@
 <?php
-
 echo "El method que ha usado es: ",$_SERVER['REQUEST_METHOD'],"<br>";
 echo  $_POST['numfact'],"<br>";
 $proveedor=$_POST['proveedor'];
