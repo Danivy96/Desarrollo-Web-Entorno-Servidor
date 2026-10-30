@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = validacion($_POST['nombre']);
     $apellido1 = validacion($_POST['apellido1']);
     $apellido2 = validacion($_POST['apellido2']);
-    $fecnac = validacion($_POST['fecnac']);
+    $fecnac = validacion($_POST['fecnac'] ?? '');
     $localidad = validacion($_POST['localidad']);
 
     // Guardar en el fichero alumnos1.txt con campos de longitud fija
