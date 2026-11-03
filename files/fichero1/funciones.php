@@ -11,13 +11,106 @@ function agregar_alumno_fich($nombre, $apellido1, $apellido2, $fecnac, $localida
 
     $file = fopen("alumnos1.txt", "a");
     //a de append
-    fwrite($file,$linea);
+    fwrite($file, $linea);
     fclose($file);
 
     //Otra alternativa, con una sola linea
     //file_put_contents("alumnos1.txt", $linea, FILE_APPEND);
     //por si acaso un append para no borrar las lineas, yt que escriba en la siguiente linea dejando intacto la anterior
 }
+
+function agregar_alumno_delim($nombre, $apellido1, $apellido2, $fecnac, $localidad)
+{
+    $fichero = "alumnos2.txt";
+
+    //$linea = $nombre . "##" . $apellido1 . "##" . $apellido2 . "##" . $fecnac . "##" . $localidad . PHP_EOL;
+    $linea = implode("##", ["$nombre", "$apellido1", "$apellido2", "$fecnac", "$localidad"]) . "\n";
+    //PHP_EOL es un salto de página del propio programa
+
+    $file = fopen($fichero, "a");
+    //a de append
+    fwrite($file, $linea);
+    fclose($file);
+
+    //Otra alternativa, con una sola linea
+    //file_put_contents("alumnos2.txt", $linea, FILE_APPEND);
+    //por si acaso un append para no borrar las lineas, yt que escriba en la siguiente linea dejando intacto la anterior
+}
+
+function leer_alumnos_fich()
+{
+
+    $alumnos = array();
+    $fichero = "../fichero1/alumnos1.txt";
+
+    /*
+    $file = fopen($fichero, "r");
+    while (($linea = fgets($file)) !== false) {
+        $linea = rtrim($linea, "\r\n");
+    */
+    $lineas = file($fichero, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    if ($lineas === false) {
+        return [];
+    }
+
+    foreach ($lineas as $linea) {
+        $alumno = array(
+            trim(substr($linea, 0, 40)),
+            trim(substr($linea, 40, 41)),
+            trim(substr($linea, 81, 42)),
+            trim(substr($linea, 123, 10)),
+            trim(substr($linea, 133, 27))
+        );
+        $alumnos[] = $alumno;
+
+    }
+
+    return $alumnos;
+}
+
+function leer_alumnos_fich_delim()
+{
+    $alumnos = array();
+    $fichero = "../fichero2/alumnos2.txt";
+
+    $lineas = file($fichero, FILE_IGNORE_NEW_LINES);
+
+    if ($lineas === false) {
+        return [];
+    }
+
+    foreach ($lineas as $linea) {
+        if (trim($linea) === "") {
+            continue;
+        }
+        $alumnos[] = explode("##", $linea);
+    }
+
+    return $alumnos;
+}
+
+function mostrar_fichero($fichero)
+{
+    return file($fichero, FILE_IGNORE_NEW_LINES);
+}
+
+function mostrar_linea($fichero, $n)
+{
+    $lineas = file($fichero, FILE_IGNORE_NEW_LINES);
+
+    if ($n < 1 || $n > count($lineas)) {
+        return null; // línea inexistente
+    }
+    return [$lineas[$n - 1]];
+}
+
+function mostrar_n_lineas($fichero, $n)
+{
+    $lineas = file($fichero, FILE_IGNORE_NEW_LINES);
+    return array_slice($lineas, 0, $n);
+}
+
 function validacion($dato)
 {
     $dato = trim($dato);

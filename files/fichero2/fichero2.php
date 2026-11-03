@@ -1,6 +1,5 @@
 <?php
-include 'funciones.php';
-?>
+include '../fichero1/funciones.php';?>
 <HTML>
 
 <HEAD>
