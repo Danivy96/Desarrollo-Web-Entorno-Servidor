@@ -3,7 +3,7 @@
 //para general uma baraja
 function crearBaraja()
 {
-    $palos = ["corazones", "diamantes", "picas", "treboles"];
+    $palos = ["C", "D", "P", "T"];
     $figuras = ["A", "2", "3", "4", "5", "6", "7", "J", "Q", "K"];
     $baraja = [];
 
@@ -28,14 +28,18 @@ function valorC($figura)
     return (int) $figura;
 }
 
-//
+//reparte cartas
 function repartirC(array $baraja, $numC)
 {
     return array_slice($baraja, 0, $numC);
     
 }
 
-
+//resta el número de cartas repartidas de la baraja, para repartir luego al resto de jugadores
+function restarC(array $baraja, $numC)
+{
+    return array_slice($baraja, $numC);
+}
 
 //para puntuar el resultado según el valor de la carta
 function puntuacion(array $mano)
