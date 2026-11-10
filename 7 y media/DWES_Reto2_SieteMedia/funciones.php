@@ -32,7 +32,7 @@ function valorC($figura)
 function repartirC(array $baraja, $numC)
 {
     return array_slice($baraja, 0, $numC);
-    
+
 }
 
 //resta el número de cartas repartidas de la baraja, para repartir luego al resto de jugadores
@@ -45,5 +45,14 @@ function restarC(array $baraja, $numC)
 function puntuacion(array $mano)
 {
     return array_sum(array_column($mano, "valor"));
+}
+
+function iniciales($nombre)
+{
+    $resultado = "";
+    foreach (explode(" ", $nombre) as $palabra) {
+    $resultado .= strtoupper(substr($palabra, 0, 1));
+    }
+    return $resultado;
 }
 ?>
