@@ -14,6 +14,7 @@ var_dump($jugador, $numCartas, $apuesta);
 var_dump($mano);
 
 var_dump("Total: ".$total);
+
 if ($total< 7.5){
     var_dump("Se ha quedado por debajo del 7.5");
 }
