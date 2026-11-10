@@ -100,7 +100,7 @@ function mostrar_linea($fichero, $n)
     $lineas = file($fichero, FILE_IGNORE_NEW_LINES);
 
     if ($n < 1 || $n > count($lineas)) {
-        return null; // línea inexistente
+        return null;
     }
     return [$lineas[$n - 1]];
 }
