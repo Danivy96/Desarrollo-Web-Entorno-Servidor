@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $puntuaciones = [];
 
     for ($cont = 1; $cont <= 4; $cont++) {
-        $jugadores[] = trim($_POST['jugador$cont'] ?? "Jugador$cont");
+        $jugadores[] = trim($_POST["jugador$cont"] ?? "Jugador$cont");
     }
 
     $numCartas = (int) ($_POST['cartas'] ?? 4);

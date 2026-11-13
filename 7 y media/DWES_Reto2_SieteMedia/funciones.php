@@ -49,10 +49,26 @@ function puntuacion(array $mano)
 
 function iniciales($nombre)
 {
-    $resultado = "";
+    $iniciales = "";
     foreach (explode(" ", $nombre) as $palabra) {
-    $resultado .= strtoupper(substr($palabra, 0, 1));
+        $iniciales .= strtoupper(substr($palabra, 0, 1));
     }
-    return $resultado;
+    return $iniciales;
+}
+
+function ganadoresLegibles(array $puntuaciones)
+{
+    /* 
+    $ganadorLegible=[];
+     foreach($puntuaciones as $cont => $puntos){
+         if($puntos <=7.5){
+             $ganadorLegible[] = $cont;
+         }
+     }
+     return $ganadorLegible;
+     */
+    //alternativa, cogo la posición (key) de los que están <= 7.5
+    $jugadorLegible = array_keys(array_filter($puntuaciones, fn($posicion) => $posicion <= 7.5));
+    return $jugadorLegible;
 }
 ?>
