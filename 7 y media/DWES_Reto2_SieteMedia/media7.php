@@ -8,15 +8,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $manos = [];
     $puntuaciones = [];
 
+
+    //contador de jugadores
     for ($cont = 1; $cont <= 4; $cont++) {
         $jugadores[] = trim($_POST["jugador$cont"] ?? "Jugador$cont");
     }
 
+    //numero de cartas a repartir por jugador y la cantidad que se apuesta
     $numCartas = (int) ($_POST['cartas'] ?? 4);
     $apuesta = (float) ($_POST['apuesta'] ?? 0);
 
+    //ejecuta la función para crear una baraja de 40 mezcladas
     $baraja = crearBaraja();
 
+    //ejecuta la función, da 4 cartas al primer jugador
+    //luego resta esas 4 cartas de la baraja y le da los siguientes 4 al siguiente jugador
+    //asigna la puntuación de cartas a cada jugador según su mano 
+    //guarda los resultados en cada array (jugadores, manos, puntuaciones)
     foreach ($jugadores as $cont => $nombre) {
         $manos[$cont] = repartirC($baraja, $numCartas);
         $baraja = restarC($baraja, $numCartas);
@@ -24,6 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     //$total = puntuacion($mano);
+
+    $validos = jugadoresValidos(($puntuaciones));
+    $mejores = ganadoresPorPuntos($puntuaciones, $validos);
+    $jugadoresGanadores = ganadores($puntuaciones, $validos, $mejores);
+
 
     var_dump($jugadores, $numCartas, $apuesta);
     var_dump($manos);
@@ -44,6 +57,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             var_dump("Por ENCIMA de 7.5");
         }
     }
+    var_dump($validos);
+    var_dump($mejores);
+    var_dump($jugadoresGanadores);
+
+    echo "Jugadores válidos: ";
+    var_dump($validos);
+    var_dump(nombresConPuntos($validos, $jugadores, $puntuaciones));
+
+    echo "Mejor puntuación entre los válidos: ";
+    var_dump($mejores);
+    // Quién tiene esa puntuación (los que empatan a la mejor)
+    var_dump(nombresConPuntos($jugadoresGanadores, $jugadores, $puntuaciones));
+
+    echo "Ganadores:";
+    var_dump($jugadoresGanadores);
+    var_dump(nombresConPuntos($jugadoresGanadores, $jugadores, $puntuaciones));
 }
 ?>
 

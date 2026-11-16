@@ -1,6 +1,6 @@
 <?php
 
-//para general uma baraja
+//para generar una baraja
 function crearBaraja()
 {
     $palos = ["C", "D", "P", "T"];
@@ -12,7 +12,7 @@ function crearBaraja()
             $baraja[] = ["palo" => $palo, "figura" => $figura, "valor" => valorC($figura)];
         }
     }
-    shuffle($baraja);
+    shuffle($baraja); //mezcla la baraja generada, igual que el bombo
     return $baraja;
 }
 
@@ -42,11 +42,15 @@ function restarC(array $baraja, $numC)
 }
 
 //para puntuar el resultado según el valor de la carta
+//suma las posiciones del array
 function puntuacion(array $mano)
 {
     return array_sum(array_column($mano, "valor"));
 }
 
+//separa el nombre y apellido en dos posiciones de array
+//luego resta todo menos la primera letra de cada posición
+//lo cambia a mayúsculas
 function iniciales($nombre)
 {
     $iniciales = "";
@@ -56,8 +60,27 @@ function iniciales($nombre)
     return $iniciales;
 }
 
-function ganadoresLegibles(array $puntuaciones)
+function jugadoresValidos(array $puntuaciones)
 {
+    $validos = [];
+    foreach ($puntuaciones as $cont => $puntos) {
+        if ($puntos <= 7.5) {
+            $validos[] = $cont;
+        }
+    }
+    return $validos;
+}
+
+
+function ganadoresPorPuntos(array $puntuaciones, array $validos)
+{
+    $mejor = -1;
+    foreach ($validos as $cont) {
+        if ($puntuaciones[$cont > $mejor]) {
+            $mejor = $puntuaciones[$cont];
+        }
+    }
+    return $mejor;
     /* 
     $ganadorLegible=[];
      foreach($puntuaciones as $cont => $puntos){
@@ -66,9 +89,30 @@ function ganadoresLegibles(array $puntuaciones)
          }
      }
      return $ganadorLegible;
-     */
+
     //alternativa, cogo la posición (key) de los que están <= 7.5
     $jugadorLegible = array_keys(array_filter($puntuaciones, fn($posicion) => $posicion <= 7.5));
     return $jugadorLegible;
+    */
+}
+
+function ganadores(array $puntuaciones, array $validos, $mejor)
+{
+    $ganadores = [];
+    foreach ($validos as $cont) {
+        if ($puntuaciones[$cont] == $mejor) {
+            $ganadores[] = $cont;
+        }
+    }
+    return $ganadores;
+}
+
+function nombresConPuntos(array $posiciones, array $jugadores, array $puntuaciones)
+{
+    $texto = [];
+    foreach ($posiciones as $cont) {
+        $texto[] = $jugadores[$cont] . " : " . $puntuaciones[$cont];
+    }
+    return $texto;
 }
 ?>
