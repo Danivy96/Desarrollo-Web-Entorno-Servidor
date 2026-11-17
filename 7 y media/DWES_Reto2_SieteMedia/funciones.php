@@ -48,6 +48,87 @@ function puntuacion(array $mano)
     return array_sum(array_column($mano, "valor"));
 }
 
+function jugadoresValidos(array $jugadores)
+{
+    //mete en el array de validos las posiciones de los jhugadores legibles (7.5 o menos)
+    $validos = [];
+    foreach ($jugadores as $jugador) {
+        if ($jugador["puntos"] <= 7.5) {
+            $validos[] = $jugador;
+        }
+    }
+    return $validos;
+}
+
+
+function ganadoresPuntMax(array $validos)
+{
+    //para que no falle si no hay nada en $validos
+    if (count($validos) == 0){
+        return [];
+    }
+    //aprovecha el array de validos para coger al jugador con máxma puntuación, puede haber más de uno
+    $mejor = max(array_column($validos,"puntos"));
+    
+    $jugMax = [];
+    foreach ($validos as $jugador) {
+        if ($jugador["puntos"] == $mejor) {
+            $jugMax[] = $jugador;
+        }
+    }
+    return $jugMax; 
+}
+
+/*
+function ganadoresPorPuntos(array $puntuaciones, array $validos)
+{
+
+    $mejor = -1;
+    foreach ($validos as $cont) {
+        if ($puntuaciones[$cont > $mejor]) {
+            $mejor = $puntuaciones[$cont];
+        }
+    }
+    return $mejor;
+
+    $ganadorLegible = [];
+    foreach ($puntuaciones as $cont => $puntos) {
+        if ($puntos <= 7.5) {
+            $ganadorLegible[] = $cont;
+        }
+    }
+    return $ganadorLegible;
+
+    //alternativa, cogo la posición (key) de los que están <= 7.5
+    /*$jugadorLegible = array_values(array_filter($puntuaciones, fn($posicion) => $posicion <= 7.5));
+    return $jugadorLegible;
+    
+}
+*/
+/*
+function ganadores(array $puntuaciones, array $validos, $mejor)
+{
+    $ganadores = [];
+    foreach ($validos as $cont) {
+        if ($puntuaciones[$cont] == $mejor) {
+            $ganadores[] = $cont;
+        }
+    }
+    return $ganadores;
+}
+*/
+
+function nombresConPuntos(array $posiciones, array $jugadores, array $puntuaciones)
+{
+    $texto = [];
+    foreach ($posiciones as $cont) {
+        $texto[] = $jugadores[$cont] . " : " . $puntuaciones[$cont];
+    }
+    return $texto;
+}
+
+
+
 //separa el nombre y apellido en dos posiciones de array
 //luego resta todo menos la primera letra de cada posición
 //lo cambia a mayúsculas
@@ -60,59 +141,4 @@ function iniciales($nombre)
     return $iniciales;
 }
 
-function jugadoresValidos(array $puntuaciones)
-{
-    $validos = [];
-    foreach ($puntuaciones as $cont => $puntos) {
-        if ($puntos <= 7.5) {
-            $validos[] = $cont;
-        }
-    }
-    return $validos;
-}
-
-
-function ganadoresPorPuntos(array $puntuaciones, array $validos)
-{
-    $mejor = -1;
-    foreach ($validos as $cont) {
-        if ($puntuaciones[$cont > $mejor]) {
-            $mejor = $puntuaciones[$cont];
-        }
-    }
-    return $mejor;
-    /* 
-    $ganadorLegible=[];
-     foreach($puntuaciones as $cont => $puntos){
-         if($puntos <=7.5){
-             $ganadorLegible[] = $cont;
-         }
-     }
-     return $ganadorLegible;
-
-    //alternativa, cogo la posición (key) de los que están <= 7.5
-    $jugadorLegible = array_keys(array_filter($puntuaciones, fn($posicion) => $posicion <= 7.5));
-    return $jugadorLegible;
-    */
-}
-
-function ganadores(array $puntuaciones, array $validos, $mejor)
-{
-    $ganadores = [];
-    foreach ($validos as $cont) {
-        if ($puntuaciones[$cont] == $mejor) {
-            $ganadores[] = $cont;
-        }
-    }
-    return $ganadores;
-}
-
-function nombresConPuntos(array $posiciones, array $jugadores, array $puntuaciones)
-{
-    $texto = [];
-    foreach ($posiciones as $cont) {
-        $texto[] = $jugadores[$cont] . " : " . $puntuaciones[$cont];
-    }
-    return $texto;
-}
 ?>
